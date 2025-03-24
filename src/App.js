@@ -1,24 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Alert from "./Components/Alert";
+import Navbar from "./Components/Navbar";
+import TextForm from "./Components/TestForm";
+import React, { useState } from "react";
 
 function App() {
+  const [mode, setMode] = useState("light");
+  const [alert, setAlert] = useState(null);
+
+  const showAlert = (massege, type) => {
+    setAlert({
+      msg: massege,
+      type: type,
+    });
+    setTimeout(() => {
+      setAlert(null);
+    }, 1500);
+  };
+
+  const toggleMode = () => {
+    if (mode === "light") {
+      setMode("dark");
+      document.body.style.backgroundColor = "#00171F";
+      document.body.style.color = "white";
+    } else if (mode === "dark") {
+      setMode("light");
+      document.body.style.backgroundColor = "#FDF0D5";
+      document.body.style.color = "black";
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar title="textUtils" mode={mode} toggleMode={toggleMode} />
+      <Alert alert={alert}></Alert>
+      <div className="container my-3">
+        <TextForm
+          showAlert={showAlert}
+          heading="Enter your text to analyse "
+          mode={mode}
+        />
+      </div>
+    </>
   );
 }
 
